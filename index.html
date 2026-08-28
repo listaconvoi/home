@@ -229,10 +229,92 @@
 <footer class="site-footer">
   <div class="wrap footer-inner">
     <img src="assets/logo-512.png" alt="" class="footer-mark" aria-hidden="true">
-    <p>Con Voi - Lista per il Comites di Manchester 2026. Circoscrizione consolare di Manchester.</p>
-    <p>&#169; 2026, all rights reserved. Website by <a href="https://cesaregardito.eu">Cesare G. Ardito</a> + <a href="https://openai.com">GPT 5.6 Sol</a></p>
+    <p>Con Voi - Lista per il Comites di Manchester 2026.<br>Circoscrizione consolare di Manchester.<br>
+      <button
+        type="button"
+        class="privacy-policy-open"
+        aria-haspopup="dialog"
+        aria-controls="privacy-policy-dialog"
+      >Privacy Policy</button>
+    </p>
+    <p>&#169; 2026. All rights reserved.<br> Website by <a href="https://cesaregardito.eu">Cesare G. Ardito</a> + <a href="https://openai.com">GPT 5.6 Sol</a></p>
   </div>
 </footer>
+
+<dialog
+  id="privacy-policy-dialog"
+  class="privacy-policy-dialog"
+  aria-labelledby="privacy-policy-title"
+>
+  <div class="privacy-policy-content">
+    <button
+      type="button"
+      class="privacy-policy-close"
+      data-privacy-policy-close
+      aria-label="Chiudi la privacy policy"
+    >&times;</button>
+
+    <h2 id="privacy-policy-title">Privacy Policy</h2>
+    <p class="privacy-policy-date">Ultimo aggiornamento: 28 agosto 2026</p>
+
+    <p>
+      Questa informativa descrive il trattamento dei dati personali attraverso
+      il sito della lista <strong>Con Voi - Comites Manchester 2026</strong>.
+      Per richieste sulla privacy puoi scrivere a
+      <a href="mailto:convoi.lista@gmail.com">convoi.lista@gmail.com</a>.
+    </p>
+
+    <h3>Dati raccolti e finalità</h3>
+    <p>
+      Se inserisci volontariamente il tuo indirizzo email nel modulo del sito,
+      lo utilizziamo per inviarti il modulo di iscrizione nell'elenco elettorale
+      e informazioni relative al voto e alla lista. Se ci contatti via email,
+      trattiamo i dati contenuti nel messaggio per rispondere alla richiesta.
+      L'invio dei dati è facoltativo.
+    </p>
+    <p>
+      Il sito e i relativi fornitori tecnici possono inoltre trattare dati
+      necessari al funzionamento e alla sicurezza, come indirizzo IP, tipo di
+      browser, dispositivo, data e ora della connessione.
+    </p>
+
+    <h3>Servizi esterni</h3>
+    <p>
+      Gli invii del modulo sono gestiti da
+      <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener noreferrer">Formspree</a>.
+      Il sito carica inoltre i caratteri tramite
+      <a href="https://developers.google.com/fonts/faq/privacy" target="_blank" rel="noopener noreferrer">Google Fonts</a>.
+      Questi fornitori possono trattare dati tecnici secondo le rispettive
+      informative.
+    </p>
+
+    <h3>Cookie</h3>
+    <p>
+      Il sito utilizza il cookie di prima parte
+      <strong>convoi_popup_visto</strong>, con durata di 180 giorni, unicamente
+      per ricordare che il popup di registrazione è già stato chiuso o compilato.
+      Non utilizziamo cookie pubblicitari o di profilazione.
+    </p>
+
+    <h3>Conservazione e diritti</h3>
+    <p>
+      Conserviamo i dati soltanto per il tempo necessario alle finalità indicate
+      e agli eventuali obblighi di legge. Puoi chiedere accesso, rettifica,
+      cancellazione o limitazione del trattamento e puoi revocare il consenso
+      scrivendo all'indirizzo indicato sopra. Puoi inoltre presentare un reclamo
+      all'<a href="https://ico.org.uk/make-a-complaint/" target="_blank" rel="noopener noreferrer">Information Commissioner's Office</a>.
+    </p>
+
+    <p>
+      I dati non vengono venduti, non vengono usati per profilazione e non sono
+      sottoposti a decisioni automatizzate.
+    </p>
+
+    <button type="button" class="btn btn-small btn-primary" data-privacy-policy-close>
+      Chiudi
+    </button>
+  </div>
+</dialog>
 
 <div id="popup-voto" class="popup-voto" hidden role="dialog" aria-modal="true" aria-label="Registrati per votare">
   <div class="popup-voto-box">

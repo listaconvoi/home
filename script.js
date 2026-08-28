@@ -184,7 +184,39 @@ function initPopupVoto() {
   onScroll();
 }
 
+
+function initPrivacyPolicy() {
+  const dialog = document.getElementById("privacy-policy-dialog");
+  const apri = document.querySelector(".privacy-policy-open");
+  if (!dialog || !apri) return;
+
+  function apriDialog() {
+    if (typeof dialog.showModal === "function") {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute("open", "");
+    }
+  }
+
+  function chiudiDialog() {
+    if (typeof dialog.close === "function") {
+      dialog.close();
+    } else {
+      dialog.removeAttribute("open");
+    }
+  }
+
+  apri.addEventListener("click", apriDialog);
+  dialog.querySelectorAll("[data-privacy-policy-close]").forEach((pulsante) => {
+    pulsante.addEventListener("click", chiudiDialog);
+  });
+  dialog.addEventListener("click", (evento) => {
+    if (evento.target === dialog) chiudiDialog();
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initCandidati();
   initPopupVoto();
+  initPrivacyPolicy();
 });

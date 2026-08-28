@@ -294,6 +294,87 @@ p{ margin: 0 0 1em; }
 .footer-mark{ width:48px; height:48px; border-radius:50%; opacity:0.9; }
 .footer-inner p{ margin:0; font-size: 0.85rem; }
 
+
+/* Privacy policy: unico pulsante nel footer + finestra modale */
+.privacy-policy-open{
+  appearance:none;
+  border:0;
+  padding:0;
+  background:none;
+  color:var(--gold);
+  font:inherit;
+  font-size:0.85rem;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  cursor:pointer;
+}
+.privacy-policy-open:hover,
+.privacy-policy-open:focus-visible{ color:#fff; }
+
+.privacy-policy-dialog{
+  width:min(700px, calc(100% - 32px));
+  max-height:86vh;
+  padding:0;
+  border:0;
+  border-radius:var(--radius);
+  background:var(--white);
+  color:var(--ink);
+  box-shadow:0 30px 80px -20px rgba(0,10,40,0.65);
+}
+.privacy-policy-dialog::backdrop{
+  background:rgba(4,12,32,0.72);
+  backdrop-filter:blur(3px);
+}
+.privacy-policy-content{
+  position:relative;
+  max-height:86vh;
+  overflow-y:auto;
+  padding:32px;
+}
+.privacy-policy-content h2{
+  margin-right:48px;
+  font-size:2rem;
+}
+.privacy-policy-content h3{
+  margin-top:24px;
+  font-family:var(--sans);
+  font-size:1rem;
+}
+.privacy-policy-content p{
+  color:var(--ink-soft);
+  font-size:0.92rem;
+  line-height:1.6;
+}
+.privacy-policy-date{
+  margin-top:-6px;
+  color:#66788a !important;
+  font-size:0.78rem !important;
+}
+.privacy-policy-close{
+  position:absolute;
+  top:14px;
+  right:16px;
+  width:38px;
+  height:38px;
+  padding:0;
+  border:0;
+  border-radius:50%;
+  background:var(--paper);
+  color:var(--ink-soft);
+  font-size:1.6rem;
+  line-height:1;
+  cursor:pointer;
+}
+.privacy-policy-close:hover,
+.privacy-policy-close:focus-visible{
+  background:var(--line);
+  color:var(--blue-deep);
+}
+@media (max-width:480px){
+  .privacy-policy-content{ padding:26px 20px; }
+  .privacy-policy-content h2{ font-size:1.65rem; }
+}
+
 /* Popup registrazione voto */
 .popup-voto{
   position: fixed; inset: 0; z-index: 200;
