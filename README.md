@@ -20,15 +20,32 @@ Per collegare un dominio proprio (es. `convoimanchester.it`): in Settings → Pa
 
 ## Aggiungere foto e bio ai candidati
 
-Ogni candidato in `script.js` ha già i campi `foto` e `bio`, oggi vuoti.
+I collegamenti alle foto sono già predisposti per tutti i candidati. Non serve modificare `script.js`: basta inserire ciascuna immagine nella cartella `assets/candidati/` usando esattamente il nome indicato qui sotto. Se un file non è ancora presente, il sito mostra automaticamente le iniziali del candidato e non visualizza un'icona di immagine rotta.
 
-1. Metti le foto (quadrate, almeno 300x300px) dentro `assets/candidati/`, un file per candidato, es. `ardito.jpg`.
-2. Nell'array `CANDIDATI`, scrivi il percorso nel campo `foto`: `foto: "assets/candidati/ardito.jpg"`.
-3. Scrivi il testo della bio (2-3 frasi bastano) nel campo `bio`.
+- `ardito.jpg` - Ardito
+- `islam.jpg` - Islam
+- `aait.jpg` - Aait
+- `akram.jpg` - Akram
+- `ansah.jpg` - Ansah
+- `asif.jpg` - Asif
+- `awan.jpg` - Awan
+- `beneventi.jpg` - Beneventi
+- `boateng.jpg` - Boateng
+- `buccelli.jpg` - Buccelli
+- `cardosi.jpg` - Cardosi
+- `colamarco.jpg` - Colamarco
+- `denegri.jpg` - Denegri
+- `eshun.jpg` - Eshun
+- `fazzi.jpg` - Fazzi
+- `giona.jpg` - Giona
+- `massini.jpg` - Massini
+- `pinto.jpg` - Pinto
+- `rosella.jpg` - Rosella
+- `saia.jpg` - Saia
+- `singh.jpg` - Singh
+- `totaro.jpg` - Totaro
 
-La card cambia da sola: mostra la foto al posto delle iniziali, e aggiunge un pulsante "Leggi la bio" che apre il testo senza allungare la pagina. I candidati senza foto o senza bio restano come sono oggi, quindi puoi aggiornarli uno alla volta senza rifare tutto insieme.
-
-Ogni modifica va ricaricata su GitHub (upload del file o `git push`); GitHub Pages si aggiorna da solo in un minuto o due.
+Le foto dovrebbero essere quadrate e almeno 300x300 px. Per aggiungere una bio, scrivi il testo nel campo `bio` del candidato in `script.js`; la card aggiungerà automaticamente il pulsante "Leggi la bio".
 
 ## Popup "registrati per votare"
 

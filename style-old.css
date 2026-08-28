@@ -174,7 +174,6 @@ p{ margin: 0 0 1em; }
 
 /* Programma */
 .programma{ padding: 72px 0; }
-.programma .section-sub{ max-width: none; }
 .pillar-index{
   display:grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 8px;
 }
@@ -188,48 +187,26 @@ p{ margin: 0 0 1em; }
 .pillar-label{ font-weight: 600; color: var(--ink-soft); }
 
 /* Candidati */
-.candidati{
-  --candidato-foto-size: 90px;
-  padding: 72px 0;
-  background: var(--white);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
+.candidati{ padding: 72px 0; background: var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
 .candidati-grid{
   list-style: none; margin:0; padding:0;
   display:grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 18px;
 }
 .candidato{
-  min-width: 0;
   border: 1px solid var(--line); border-radius: var(--radius); padding: 18px;
   background: var(--paper);
 }
-.candidato-top{
-  display:flex;
-  align-items:center;
-  gap:16px;
-  min-width:0;
-}
+.candidato-top{ display:flex; align-items:center; gap: 14px; }
 .candidato-foto-shell{
-  position:relative;
-  width:var(--candidato-foto-size);
-  height:var(--candidato-foto-size);
-  border-radius:50%;
-  flex:0 0 var(--candidato-foto-size);
+  position:relative; width:64px; height:64px; border-radius:50%; flex:none;
 }
 .candidato-foto{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  object-fit:cover;
-  border:2px solid var(--white);
-  box-shadow:0 0 0 2px var(--line);
+  position:absolute; inset:0; width:64px; height:64px; border-radius:50%; object-fit: cover;
+  border: 2px solid var(--white); box-shadow: 0 0 0 2px var(--line);
 }
 .candidato-foto-fallback{
   z-index:0; background: var(--blue); color: var(--gold); font-family: var(--serif); font-weight:600;
-  display:flex; align-items:center; justify-content:center; font-size: 1.45rem;
+  display:flex; align-items:center; justify-content:center; font-size: 1.3rem;
 }
 .candidato-foto-img{ z-index:1; background:var(--paper); }
 .candidato-id{ display:flex; flex-direction:column; gap: 2px; min-width:0; }
@@ -241,10 +218,6 @@ p{ margin: 0 0 1em; }
 }
 .candidato-bio-toggle:hover{ text-decoration: underline; }
 .candidato-bio{ margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 0.92rem; }
-@media (max-width: 700px){
-  .candidati{ --candidato-foto-size: 72px; }
-  .candidato-top{ gap:14px; }
-}
 
 /* Come si vota */
 .vota{
@@ -259,19 +232,17 @@ p{ margin: 0 0 1em; }
 }
 .vota-seal img{ width:100%; height:100%; }
 .vota .wrap{ position:relative; z-index:1; }
-.vota .section-sub{ max-width:none; }
 @media (max-width: 780px){ .vota-seal{ width: 260px; height:260px; left:-100px; bottom:-100px; } }
 .steps{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap: 22px; }
-.step{ display:flex; gap: 18px; align-items:flex-start; min-width:0; }
-.step > div{ flex:1 1 0; min-width:0; }
+.step{ display:flex; gap: 18px; align-items:flex-start; }
 .step-num{
   flex:none; width:38px; height:38px; border-radius:50%;
   background: var(--gold); color: var(--blue-deep); font-family: var(--serif); font-weight:700;
   display:flex; align-items:center; justify-content:center;
 }
 .step h3{ color:#fff; font-size: 1.1rem; margin-bottom: 6px; }
-.step p{ color: rgba(255,255,255,0.85); max-width:none; }
-.step a{ color: var(--gold); overflow-wrap:anywhere; }
+.step p{ color: rgba(255,255,255,0.85); }
+.step a{ color: var(--gold); }
 .vota-official{
   margin-top: 40px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.25);
   color: rgba(255,255,255,0.85);

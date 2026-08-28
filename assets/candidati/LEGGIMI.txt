@@ -1,0 +1,29 @@
+FOTO DEI CANDIDATI
+
+Inserire in questa cartella file JPG quadrati, preferibilmente almeno 300x300 px.
+I nomi attesi dal sito sono:
+
+ardito.jpg - Ardito
+islam.jpg - Islam
+aait.jpg - Aait
+akram.jpg - Akram
+ansah.jpg - Ansah
+asif.jpg - Asif
+awan.jpg - Awan
+beneventi.jpg - Beneventi
+boateng.jpg - Boateng
+buccelli.jpg - Buccelli
+cardosi.jpg - Cardosi
+colamarco.jpg - Colamarco
+denegri.jpg - Denegri
+eshun.jpg - Eshun
+fazzi.jpg - Fazzi
+giona.jpg - Giona
+massini.jpg - Massini
+pinto.jpg - Pinto
+rosella.jpg - Rosella
+saia.jpg - Saia
+singh.jpg - Singh
+totaro.jpg - Totaro
+
+I percorsi sono gia configurati in script.js. Se una foto manca, il sito mostra le iniziali.
