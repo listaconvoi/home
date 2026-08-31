@@ -25,7 +25,7 @@ const CANDIDATI = [
   { n: 6,  cognome: "Asif",       nome: "Farwa",                citta: "",                              foto: "assets/candidati/asif.jpg", bio: "Nata e cresciuta in Italia, di origini pakistane, vive nel Regno Unito dall’età di diciassette anni. Laureata in Relazioni Internazionali presso l’Università di Coventry, ha lavorato per tre anni nel settore dell’istruzione e svolto volontariato per due anni presso il Vice Consolato Italiano a Birmingham. Parla correntemente italiano, inglese e urdu. Da anni organizza e promuove raccolte fondi e progetti di beneficenza a sostegno delle comunità più vulnerabili in diversi Paesi. Si candida al Comites con il desiderio di essere utile, ascoltare le esigenze dei connazionali, offrire un sostegno concreto e contribuire a una comunità italiana più unita, inclusiva e vicina alle persone." },
   { n: 7,  cognome: "Awan",       nome: "Khalid Mahmood",      citta: "",                              foto: "assets/candidati/awan.jpg", bio: "" },
   { n: 8,  cognome: "Beneventi",  nome: "Alessia",              citta: "Nottingham",                    foto: "assets/candidati/beneventi.jpg", bio: "Insegnante di italiano e direttrice dell’Italian School of Nottingham. Da anni lavora nel nord del Regno Unito, dove promuove la lingua e la cultura italiana collaborando con scuole, famiglie e associazioni del territorio. Opera nell’area di competenza del Consolato di Manchester ed è diventata un punto di riferimento per molti italiani che vivono nella regione, grazie alla sua esperienza nel settore educativo e alla costante attenzione verso la comunità." },
-  { n: 9,  cognome: "Boateng",    nome: "Nana Adjei",          citta: "Leeds",                         foto: "assets/candidati/boateng.jpg", bio: "" },
+  { n: 9,  cognome: "Boateng",    nome: "Nana Adjei",          citta: "Leeds",                         foto: "assets/candidati/boateng.jpg", bio: "Nana Adjei Boateng è attivo da molti anni nella vita associativa di Leeds e del West Yorkshire, con una consolidata esperienza in ruoli di responsabilità e nel dialogo tra comunità diverse. Ha studiato Ingegneria presso il Polytechnic School in Ghana, acquisendo competenze tecniche e organizzative che ha poi applicato anche alla propria attività comunitaria. A Leeds è stato Vicepresidente del Men Executives Club e successivamente Presidente del VIP Men's Club. Ha inoltre ricoperto il ruolo di Vicepresidente della Ghana Union Leeds, contribuendo alle attività della comunità ghanese e alla promozione della coesione sociale e culturale. Attualmente è Presidente della Yorkshire Italian Diaspora Association a Leeds, attraverso la quale promuove la cultura italiana, organizza iniziative sociali e culturali e sostiene la comunità italiana di Leeds e del West Yorkshire. La sua esperienza associativa e multiculturale gli consentirebbe, se eletto, di portare nel ruolo di delegato Comites una conoscenza diretta delle comunità locali e delle loro esigenze." },
   { n: 10, cognome: "Buccelli",   nome: "Bruno",                citta: "Lancaster",                     foto: "assets/candidati/buccelli.jpg", bio: "Imprenditore e organizzatore di eventi con oltre dieci anni di esperienza nel settore dell’ospitalità, della cultura e della promozione del territorio. Nel corso della sua attività ha ideato e organizzato importanti eventi a Lancaster, tra cui Lancaster Festa Italia, una delle principali manifestazioni dedicate alla cultura e alla tradizione italiana nel Regno Unito, e il Lancaster International Film Festival, del quale è fondatore e direttore. È inoltre il proprietario e fondatore di Buccelli’s, ristorante italiano nel centro di Lancaster, aperto nel 2016. Originario di Roma, Bruno ha costruito il ristorante intorno ai valori dell’autenticità, della tradizione e della qualità della cucina italiana, con particolare attenzione alle ricette regionali, ai prodotti italiani e alla preparazione artigianale. Sotto la sua guida, Buccelli’s ha ottenuto importanti riconoscimenti a livello nazionale nel Regno Unito. Nel 2022 il ristorante ha ricevuto il prestigioso ITA0039 Award, riconoscimento dedicato alla migliore espressione del “100% Italian Taste”, mentre i suoi chef, sono stati premiati come Best Italian Chef agli Italian Awards. Nel 2026 Buccelli’s è stata inoltre Highly Recommended come Best Restaurant in the North West of England agli Italian Awards, confermando la presenza del ristorante tra le realtà italiane più riconosciute nel panorama gastronomico britannico. Attraverso la ristorazione, gli eventi e le iniziative culturali, Bruno Buccelli continua a promuovere la cultura italiana nel Regno Unito, creando un ponte tra la tradizione italiana e la comunità locale di Lancaster e Lancashire." },
   { n: 11, cognome: "Cardosi",    nome: "Patricia Marina",     citta: "",                              foto: "assets/candidati/cardosi.jpg", bio: "" },
   { n: 12, cognome: "Colamarco",  nome: "Adele",                citta: "Liverpool",                     foto: "assets/candidati/colamarco.jpg", bio: "Originaria di Avellino e vive da 13 anni a Liverpool con il marito e i figli di 14 e 9 anni. Laureata in Scienze Naturali, ha vissuto e studiato anche ad Edimburgo e York, dove ha lavorato per RSPB. Si candida per aiutare i connazionali ad avere un servizio consolare più snello ed efficace." },
@@ -218,8 +218,39 @@ function initPrivacyPolicy() {
   });
 }
 
+
+function initTabs() {
+  const buttons = Array.from(document.querySelectorAll(".pillar-btn"));
+  const panels = Array.from(document.querySelectorAll(".pillar-panel"));
+  if (!buttons.length) return;
+
+  function activate(id) {
+    buttons.forEach(b => {
+      const on = b.dataset.target === id;
+      b.classList.toggle("is-active", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+
+    panels.forEach(p => {
+      const on = p.id === id;
+      p.classList.toggle("is-active", on);
+
+      if (on) {
+        p.removeAttribute("hidden");
+      } else {
+        p.setAttribute("hidden", "");
+      }
+    });
+  }
+
+  buttons.forEach(b => {
+    b.addEventListener("click", () => activate(b.dataset.target));
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initCandidati();
+  initTabs();
   initPopupVoto();
   initPrivacyPolicy();
 });
