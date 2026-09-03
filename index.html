@@ -67,6 +67,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -127,8 +128,43 @@
 
   <section id="candidati" class="candidati">
     <div class="wrap">
-      <h2 class="section-title">I candidati</h2>
-      <p class="section-sub">Clicca su ciascun candidato per scoprire di più.</p>
+      <div class="candidati-head">
+        <div class="candidati-heading">
+          <h2 class="section-title">I candidati</h2>
+          <p class="section-sub">Clicca su ciascun candidato per scoprire di più.</p>
+        </div>
+
+        <aside class="candidate-board" aria-label="La lista in numeri">
+          <div class="candidate-stats">
+            <div class="candidate-stat">
+              <strong>22</strong>
+              <span>candidati</span>
+            </div>
+
+            <div class="candidate-stat">
+              <strong>16</strong>
+              <span>città</span>
+            </div>
+
+            <div class="candidate-stat candidate-stat-gender">
+              <div class="candidate-gender-row">
+                <span class="candidate-gender-f"><b>12</b> ♀</span>
+                <span class="candidate-gender-m"><b>10</b> ♂</span>
+              </div>
+              <span>donne · uomini</span>
+            </div>
+
+            <div class="candidate-stat">
+              <strong>46,5</strong>
+              <span>età media</span>
+              <small>da 27 a 64 anni</small>
+            </div>
+          </div>
+
+          <div id="candidate-map" class="candidate-map" aria-label="Mappa delle città rappresentate"></div>
+        </aside>
+      </div>
+
       <ol class="candidati-grid" id="candidati-grid"></ol>
     </div>
   </section>
@@ -138,20 +174,179 @@
       <p class="section-sub">La legge affida al Comites quattro compiti principali: ecco come vogliamo svolgerli.</p>
       <p class="wip-badge">Work in progress: seguici, presenteremo il nostro programma nelle prossime settimane.</p>
 
-      <div class="pillar-index">
-        <div class="pillar-btn">
-          <span class="pillar-num">01</span><span class="pillar-label">Rappresentanza</span>
+      <div class="pillar-index" aria-label="Temi del programma">
+        <div class="pillar-btn" style="cursor: default;">
+          <span class="pillar-num">01</span>
+          <span class="pillar-label">Rappresentanza</span>
         </div>
-        <div class="pillar-btn">
-          <span class="pillar-num">02</span><span class="pillar-label">Lingua e cultura</span>
+        <div class="pillar-btn" style="cursor: default;">
+          <span class="pillar-num">02</span>
+          <span class="pillar-label">Lingua e cultura</span>
         </div>
-        <div class="pillar-btn">
-          <span class="pillar-num">03</span><span class="pillar-label">Integrazione</span>
+        <div class="pillar-btn" style="cursor: default;">
+          <span class="pillar-num">03</span>
+          <span class="pillar-label">Integrazione</span>
         </div>
-        <div class="pillar-btn">
-          <span class="pillar-num">04</span><span class="pillar-label">Memoria storica</span>
+        <div class="pillar-btn" style="cursor: default;">
+          <span class="pillar-num">04</span>
+          <span class="pillar-label">Memoria storica</span>
         </div>
       </div>
+
+      <!-- PROGRAMMA DETTAGLIATO: temporaneamente nascosto
+    <div class="pillar-index" role="tablist" aria-label="Sezioni del programma">
+      <button class="pillar-btn is-active" role="tab" aria-selected="true" aria-controls="p1" id="tab-p1" data-target="p1">
+        <span class="pillar-num">01</span>
+        <span class="pillar-label">Rappresentanza</span>
+      </button>
+
+      <button class="pillar-btn" role="tab" aria-selected="false" aria-controls="p2" id="tab-p2" data-target="p2">
+        <span class="pillar-num">02</span>
+        <span class="pillar-label">Lingua e cultura</span>
+      </button>
+
+      <button class="pillar-btn" role="tab" aria-selected="false" aria-controls="p3" id="tab-p3" data-target="p3">
+        <span class="pillar-num">03</span>
+        <span class="pillar-label">Integrazione</span>
+      </button>
+
+      <button class="pillar-btn" role="tab" aria-selected="false" aria-controls="p4" id="tab-p4" data-target="p4">
+        <span class="pillar-num">04</span>
+        <span class="pillar-label">Memoria storica</span>
+      </button>
+    </div>
+
+    <div class="pillar-panels">
+
+      <article class="pillar-panel is-active" id="p1" role="tabpanel" aria-labelledby="tab-p1">
+        <h3>Una voce forte per gli italiani del Nord dell'Inghilterra</h3>
+
+        <p>
+          Vogliamo continuare a rappresentare i problemi della nostra comunità non soltanto presso il Consolato di Manchester, ma anche presso Ambasciata, CGIE, Ministero, Governo e Parlamento quando le decisioni dipendono da Roma.
+        </p>
+
+        <ul>
+          <li>
+            <strong>Più risorse e servizi consolari migliori.</strong>
+            Continueremo a chiedere interventi sui tempi di attesa per passaporti, carte d'identità, AIRE e stato civile, sulla possibilità di contattare gli uffici e sulle risorse necessarieni.
+          </li>
+
+          <li>
+            <strong>Una sede del Comites a Manchester con una segreteria dedicata.</strong>
+            Vogliamo aprire uno spazio vicino al Consolato, regolarmente accessibile al pubblico, per offrire informazioni, raccogliere segnalazioni e aiutare gratuitamente i cittadini.
+          </li>
+
+          <li>
+            <strong>Più missioni consolari sul territorio.</strong>
+            Collaboreremo con il Consolato per portare servizi e funzionari anche nelle aree più lontane da Manchester, ampliando dove possibile le pratiche disponibili oltre ai passaporti.
+          </li>
+
+          <li>
+            <strong>Una rappresentanza fondata sull'ascolto e sui dati.</strong>
+            Continueremo a promuovere studi e ricerche sui bisogni della comunità e una collaborazione stabile con associazioni, professionisti, imprese, scuole, università e altre realtà del Sistema Italia.
+          </li>
+        </ul>
+      </article>
+
+
+      <article class="pillar-panel" id="p2" role="tabpanel" aria-labelledby="tab-p2" hidden>
+        <h3>Mantenere vivo il legame con l'Italia e renderlo accessibile alle nuove generazioni</h3>
+
+        <p>
+          Lingua e cultura rappresentano uno dei principali legami fra una comunità italiana all'estero e l'Italia, soprattutto per le nuove generazioni.
+        </p>
+
+        <ul>
+          <li>
+            <strong>Sostenere i corsi di lingua e cultura italiana.</strong>
+            Collaboreremo con enti promotori, scuole e altre realtà educative presenti sul territorio per far conoscere e rafforzare l'offerta rivolta a bambini, giovani e adulti.
+          </li>
+
+          <li>
+            <strong>Avvicinare seconde e terze generazioni alla lingua italiana.</strong>
+            Sosterremo iniziative che permettano ai figli e ai nipoti degli italiani emigrati di mantenere o recuperare il proprio rapporto linguistico e culturale con l'Italia.
+          </li>
+
+          <li>
+            <strong>Promuovere la cultura italiana sul territorio.</strong>
+            Organizzeremo e sosterremo iniziative dedicate a cinema, letteratura, musica, teatro, arte, scienza e tradizioni, collaborando con associazioni, università, scuole e istituzioni culturali.
+          </li>
+
+          <li>
+            <strong>Mettere in rete realtà italiane e britanniche.</strong>
+            Favoriremo collaborazioni, scambi e gemellaggi culturali ed educativi capaci di creare rapporti duraturi e raggiungere nuovi pubblici.
+          </li>
+        </ul>
+      </article>
+
+
+      <article class="pillar-panel" id="p3" role="tabpanel" aria-labelledby="tab-p3" hidden>
+        <h3>Informare, orientare e connettere una comunità che continua a cambiare</h3>
+
+        <p>
+          La comunità italiana del Nord dell'Inghilterra comprende persone arrivate da pochi mesi e famiglie presenti da generazioni, lavoratori, studenti, professionisti, imprenditori, pensionati e cittadini provenienti da percorsi migratori molto diversi. Il Comites deve rappresentarli tutti.
+        </p>
+
+        <ul>
+          <li>
+            <strong>Informazioni chiare e tempestive sulla vita nel Regno Unito.</strong>
+            Continueremo a realizzare articoli, guide, incontri e webinar su soggiorno, lavoro, welfare, sanità, scuola, servizi pubblici e cambiamenti normativi che interessano gli italiani.
+          </li>
+
+          <li>
+            <strong>Proseguire il progetto “Nuovi Italiani”.</strong>
+            Rafforzeremo il progetto dedicato ai cittadini italiani provenienti da percorsi di migrazione secondaria, favorendo informazione, partecipazione civica e un rapporto più diretto con le istituzioni italiane.
+          </li>
+
+          <li>
+            <strong>Attenzione alle persone più vulnerabili.</strong>
+            Collaboreremo con le organizzazioni esistenti per sostenere anziani, persone sole e cittadini in condizioni di difficoltà, favorendo reti territoriali di socialità, orientamento e supporto.
+          </li>
+
+          <li>
+            <strong>Un Comites realmente presente sul territorio.</strong>
+            Valorizzeremo associazioni, professionisti, imprese e comunità locali, utilizzando la presenza dei consiglieri nelle diverse città come punto di ascolto e collegamento con Manchester.
+          </li>
+        </ul>
+      </article>
+
+
+      <article class="pillar-panel" id="p4" role="tabpanel" aria-labelledby="tab-p4" hidden>
+        <h3>Conservare e raccontare la storia degli italiani che hanno costruito questa comunità</h3>
+
+        <p>
+          La storia dell'emigrazione italiana nel Nord dell'Inghilterra appartiene alla comunità di oggi e alle generazioni che verranno.
+        </p>
+
+        <ul>
+          <li>
+            <strong>Proseguire i progetti audiovisivi e documentari.</strong>
+            Continueremo l'esperienza di “Gocce d'Italia” e svilupperemo nuovi progetti per raccogliere direttamente le storie degli italiani presenti sul territorio.
+          </li>
+
+          <li>
+            <strong>Raccogliere e conservare la memoria della comunità.</strong>
+            Vogliamo valorizzare testimonianze, fotografie, documenti e ricordi dell'emigrazione italiana, creando un patrimonio accessibile anche alle generazioni future.
+          </li>
+
+          <li>
+            <strong>Coinvolgere giovani, scuole e nuove generazioni.</strong>
+            Lavoreremo affinché la memoria dell'emigrazione italiana venga conosciuta e trasmessa anche da chi non ha vissuto direttamente quelle esperienze.
+          </li>
+
+          <li>
+            <strong>Raccontare tutte le comunità della circoscrizione.</strong>
+            Valorizzeremo le diverse storie locali dell'emigrazione italiana, da Manchester allo Yorkshire, dal Lancashire al Merseyside, dalle Midlands settentrionali all'Isola di Man.
+          </li>
+        </ul>
+      </article>
+
+    </div>
+<br>
+    <p class="programma-close">
+      Negli ultimi anni, grazie alla collaborazione tra MIE e Italia4Italy, il Comites ha superato anni di immobilismo e ha iniziato a ottenere risultati concreti: si è fatto sentire sui servizi consolari, ha portato le esigenze della comunità nelle sedi istituzionali nazionali, ha contribuito alle missioni consolari sul territorio e ha promosso iniziative culturali, informative e di memoria.
+    </p>
+      FINE PROGRAMMA DETTAGLIATO -->
     </div>
   </section>
 
@@ -204,7 +399,22 @@
         <h2 class="section-title">Contatti</h2>
         <p class="section-sub">Scrivici per domande sul programma, sulla lista o sul voto.</p>
       </div>
-      <a class="contact-email" href="mailto:convoi.lista@gmail.com">convoi.lista@gmail.com</a>
+
+      <div class="contatti-links">
+        <a class="contact-email" href="mailto:convoi.lista@gmail.com">convoi.lista@gmail.com</a>
+
+        <div class="facebook-links" aria-label="Seguici su Facebook">
+          <span class="facebook-label">Seguici su Facebook:</span>
+
+          <a href="https://www.facebook.com/profile.php?id=61593813022107" target="_blank" rel="noopener" aria-label="MIE su Facebook">
+            <img src="assets/MIE.jpg" alt="MIE" class="facebook-logo">
+          </a>
+
+          <a href="https://www.facebook.com/Italia4Italy" target="_blank" rel="noopener" aria-label="Italia4Italy su Facebook">
+            <img src="assets/Italia4Italy.png" alt="Italia4Italy" class="facebook-logo">
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -406,6 +616,7 @@ a proseguire il lavoro svolto in questi ultimi anni in cui siamo stati alla guid
   </div>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

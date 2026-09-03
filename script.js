@@ -219,6 +219,72 @@ function initPrivacyPolicy() {
 }
 
 
+
+const CITY_COORDS = {
+  "Manchester": [53.4808, -2.2426],
+  "Birmingham": [52.4862, -1.8904],
+  "Nelson": [53.8353, -2.2134],
+  "Nottingham": [52.9548, -1.1581],
+  "Leeds": [53.8008, -1.5491],
+  "Lancaster": [54.0470, -2.8010],
+  "Liverpool": [53.4084, -2.9916],
+  "Douglas (Isola di Man)": [54.1523, -4.4861],
+  "Sheffield": [53.3811, -1.4701],
+  "Bradford": [53.7950, -1.7594],
+  "Warrington": [53.3900, -2.5970],
+  "Carlisle": [54.8925, -2.9329],
+  "West Bromwich": [52.5187, -1.9952]
+};
+
+function initCandidateMap() {
+  const mapEl = document.getElementById("candidate-map");
+  if (!mapEl || typeof L === "undefined") return;
+
+  const map = L.map(mapEl, {
+    zoomControl: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false
+  });
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors",
+    maxZoom: 18
+  }).addTo(map);
+
+  const perCitta = new Map();
+
+  CANDIDATI.forEach(c => {
+    const citta = c.citta && c.citta.trim();
+    if (!citta || !CITY_COORDS[citta]) return;
+
+    if (!perCitta.has(citta)) perCitta.set(citta, []);
+    perCitta.get(citta).push(`${c.nome} ${c.cognome}`);
+  });
+
+  const punti = [];
+
+  perCitta.forEach((nomi, citta) => {
+    const coord = CITY_COORDS[citta];
+    punti.push(coord);
+
+    L.circleMarker(coord, {
+      radius: 5,
+      weight: 2,
+      color: "#003399",
+      fillColor: "#0097b2",
+      fillOpacity: 0.9
+    })
+      .addTo(map)
+      .bindTooltip(`<strong>${citta}</strong><br>${nomi.join("<br>")}`);
+  });
+
+  if (punti.length) {
+    map.fitBounds(punti, { padding: [10, 10] });
+  }
+}
+
 function initTabs() {
   const buttons = Array.from(document.querySelectorAll(".pillar-btn"));
   const panels = Array.from(document.querySelectorAll(".pillar-panel"));
@@ -250,6 +316,7 @@ function initTabs() {
 
 document.addEventListener("DOMContentLoaded", () => {
   initCandidati();
+  initCandidateMap();
   initTabs();
   initPopupVoto();
   initPrivacyPolicy();
