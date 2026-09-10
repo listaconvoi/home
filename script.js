@@ -2,7 +2,7 @@
 // votare". Vai su formspree.io, crea un form gratuito, e incolla qui
 // l'indirizzo che ti danno (tipo "https://formspree.io/f/xxxxabcd").
 // Finché è vuoto, il popup non compare.
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/mljerdvz";
+const FORMSPREE_ENDPOINT = "https://api.web3forms.com/submit";
 
 // Candidati alla carica di membri del Comites di Manchester — Lista "Con Voi"
 //
@@ -123,7 +123,8 @@ function getCookie(nome) {
 function initPopupVoto() {
   const popup = document.getElementById("popup-voto");
   if (!popup) return;
-  if (!FORMSPREE_ENDPOINT) return; // non configurato: il popup resta spento
+    const accessKeyInput = document.querySelector('.popup-voto-form input[name="access_key"]');
+  if (!accessKeyInput || !accessKeyInput.value) return; // chiave Web3Forms mancante: popup spento
   if (getCookie(POPUP_COOKIE)) return;
 
   const form = popup.querySelector(".popup-voto-form");
