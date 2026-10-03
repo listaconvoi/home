@@ -237,7 +237,7 @@ const CITY_COORDS = {
   "Bradford": [53.7950, -1.7594],
   "Warrington": [53.3900, -2.5970],
   "Carlisle": [54.8925, -2.9329],
-  "West Bromwich": [52.5187, -1.9952]
+  "West Bromwich": [52.5187, -2.1952]
 };
 
 function initCandidateMap() {
