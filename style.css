@@ -811,6 +811,14 @@ a.press-card:hover .press-thumb{
 }
 
 .materiali .hero-actions .btn {
-    width: 100%;
+    width: 60%;
     text-align: center;
+}
+
+.materiali .hero-actions .btn:nth-child(odd) {
+    justify-self: end;
+}
+
+.materiali .hero-actions .btn:nth-child(even) {
+    justify-self: start;
 }
