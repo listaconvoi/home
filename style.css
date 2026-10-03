@@ -802,3 +802,15 @@ a.press-card:hover .press-thumb{
 @media (max-width:520px){
   .press-gallery{ grid-template-columns:1fr; }
 }
+.materiali .hero-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+    margin: 0;
+}
+
+.materiali .hero-actions .btn {
+    width: 100%;
+    text-align: center;
+}
