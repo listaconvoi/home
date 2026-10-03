@@ -178,7 +178,10 @@ p{ margin: 0 0 1em; }
 .programma{ padding: 72px 0; }
 .programma .section-sub{ max-width: none; }
 .pillar-index{
-  display:grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 8px;
+  display:grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 8px;
 }
 @media (max-width: 780px){ .pillar-index{ grid-template-columns: 1fr 1fr; } }
 .pillar-btn{
