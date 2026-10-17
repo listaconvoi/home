@@ -1,28 +1,16 @@
-// Formspree endpoint for collecting email addresses through the "register
-// to vote" popup. Go to formspree.io, create a free form, and paste the
-// address provided here (e.g. "https://formspree.io/f/xxxxabcd").
-// The popup will not appear while this is empty.
-const FORMSPREE_ENDPOINT = "https://api.web3forms.com/submit";
+// Web3Forms handles the optional email registration request.
+const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit";
 
-// Candidates for Manchester Comites - "Con Voi"
-//
-// City: the candidate's city of residence in the UK. Entries containing ""
-// still need to be completed.
-//
-// All photo paths are already set up in assets/candidati/, using the
-// candidate's surname in lowercase (e.g. ardito.jpg). The photo appears
-// automatically when the file is added. Until then, initials are shown
-// on a blue background, with no broken-image icons.
-//
-// To add a biography, enter the text in the "bio" field. Without a biography,
-// the card does not display the "Read bio" button.
+// Candidate biographies remain the original supplied text.
+// Photo paths are converted to the optimized WebP copies when rendering.
+// Farwa Asif has no photo on the server: add its path to foto when available.
 const CANDIDATI = [
   { n: 1,  cognome: "Ardito",     nome: "Cesare Giulio",      citta: "Manchester",                    foto: "assets/candidati/ardito.jpg", bio: "Current President of Manchester Comites. A mathematician originally from Rome, he has lived in Manchester for ten years. He administers the Italians in Manchester community and founded I3Italy, a project providing information and support for Italians in England. In 2021, he was elected to Manchester Comites with Italia4Italy. His work has focused primarily on representing the Italian community in the North of England in its dealings with public institutions, taking its concerns to national level, including at a hearing before the Italian Chamber of Deputies last February." },
   { n: 2,  cognome: "Islam",      nome: "Safiqul",            citta: "Birmingham",                    foto: "assets/candidati/islam.jpg", bio: "Current Vice-President of Manchester Comites. He holds an MA from Leeds Trinity University and an honorary doctorate in Philosophy specialising in International Business and Community Leadership from Kennedy University. He is Managing Director of UIB Housing Ltd., UIB Service & Multi Centre Ltd. and LBC Builders Ltd. He founded UIB (United Italian Bangladesh) and the ASTON Bangla school, supporting the Italian community in Birmingham and the West Midlands with permits, visas, translations, consular procedures, and citizenship and benefits applications. He also promotes Italian language learning among younger generations through B1-level courses." },
   { n: 3,  cognome: "Aait",       nome: "Assia",               citta: "Birmingham",                              foto: "assets/candidati/aait.jpg", bio: "I'm Assia, an Italian-Moroccan born in Turin. I hold a degree in Applied Modern Languages from France and a Master's in Psychology from Birmingham City University. My experiences across different cultures, languages and countries have given me a strong intercultural awareness and taught me to listen closely to others. I want to put this experience to work for the Italian community in the UK, celebrating its diversity, building connections and giving younger generations a voice." },
   { n: 4,  cognome: "Akram",      nome: "Imran",               citta: "Nelson",                        foto: "assets/candidati/akram.jpg", bio: "He has lived in Nelson, UK, for over 12 years. An Italian citizen of Pakistani origin, he previously lived in Italy for around 18 years. He has always been closely involved with his community, consistently making time to listen and help people resolve their problems. He believes in solidarity, integration and mutual support, and remains committed to helping those in need." },
   { n: 5,  cognome: "Ansah",      nome: "Ernest Asiedu",       citta: "Telford",                              foto: "assets/candidati/ansah.jpg", bio: "Chairman of the Ghanaian-Italian Association in Telford, whose motto is 'Unity is Strength'. For years, he has built partnerships and cultural connections to bring the diaspora community together and help it thrive." },
-  { n: 6,  cognome: "Asif",       nome: "Farwa",                citta: "Coventry",                              foto: "assets/candidati/asif.jpg", bio: "Born and raised in Italy, with Pakistani roots, she has lived in the UK since she was seventeen. A graduate in International Relations from Coventry University, she worked in education for three years and volunteered at the Italian Vice Consulate in Birmingham for two years. She speaks fluent Italian, English and Urdu. For years, she has organised and promoted fundraising campaigns and charitable projects supporting the most vulnerable communities in different countries. She is standing for Comites to serve the community, listen to fellow Italians' needs, offer practical support and help build an Italian community that is more united, inclusive and responsive to people's needs." },
+  { n: 6,  cognome: "Asif",       nome: "Farwa",                citta: "Coventry",                              foto: "", bio: "Born and raised in Italy, with Pakistani roots, she has lived in the UK since she was seventeen. A graduate in International Relations from Coventry University, she worked in education for three years and volunteered at the Italian Vice Consulate in Birmingham for two years. She speaks fluent Italian, English and Urdu. For years, she has organised and promoted fundraising campaigns and charitable projects supporting the most vulnerable communities in different countries. She is standing for Comites to serve the community, listen to fellow Italians' needs, offer practical support and help build an Italian community that is more united, inclusive and responsive to people's needs." },
   { n: 7,  cognome: "Awan",       nome: "Khalid Mahmood",      citta: "Birmingham",                              foto: "assets/candidati/awan.jpg", bio: "My name is Khalid Mahmood Awan. I was born in Pakistan and lived in Italy for 19 years, an important experience that gave me a deep understanding of Italian culture, society and values. I have lived in Birmingham, UK, for around ten years. Over the years, I have kept strong ties with both the Italian community and people of Pakistani origin living in the UK. I enjoy being there for others, listening to their needs and helping, wherever possible, to find solutions to everyday difficulties." },
   { n: 8,  cognome: "Beneventi",  nome: "Alessia",              citta: "Nottingham",                    foto: "assets/candidati/beneventi.jpg", bio: "An Italian teacher and Director of the Italian School of Nottingham. She has worked in the north of the UK for many years, promoting Italian language and culture in partnership with local schools, families and associations. Working within the Manchester consular district, she has become a trusted point of contact for many Italians in the region, thanks to her experience in education and her ongoing commitment to the community." },
   { n: 9,  cognome: "Boateng",    nome: "Nana Adjei",          citta: "Leeds",                         foto: "assets/candidati/boateng.jpg", bio: "Nana Adjei Boateng has been active in community organisations in Leeds and West Yorkshire for many years, with extensive experience in leadership roles and in fostering dialogue between different communities. He studied Engineering at the Polytechnic School in Ghana, developing technical and organisational skills that he has also put to use in his community work. In Leeds, he served as Vice-President of the Men Executives Club and later as President of the VIP Men's Club. He was also Vice-President of Ghana Union Leeds, supporting the Ghanaian community's activities and promoting social and cultural cohesion. He is currently President of the Yorkshire Italian Diaspora Association in Leeds, through which he promotes Italian culture, organises social and cultural initiatives and supports the Italian community in Leeds and West Yorkshire. If elected to Comites, his experience in community organisations and multicultural settings would enable him to bring first-hand knowledge of local communities and their needs to the role." },
@@ -44,182 +32,221 @@ Alongside my practical and administrative skills, I bring a holistic approach to
 Today, I am ready to put this distinctive combination of practical skills and cultural empathy at the service of the committee. I see not just problems, but systems to improve and people to support. I am here to listen, to stand up for your interests and to build bridges for every member of our community."` },
 ];
 
-function initCandidati() {
-  const grid = document.getElementById("candidati-grid");
-  if (!grid) return;
-  const frag = document.createDocumentFragment();
-  CANDIDATI.forEach(c => {
-    const li = document.createElement("li");
-    li.className = "candidato";
-    const initials = (c.nome.trim()[0] + c.cognome.trim()[0]).toUpperCase();
-    const hasBio = Boolean(c.bio && c.bio.trim());
-    const hasCitta = Boolean(c.citta && c.citta.trim());
-    const photoHtml = `
-      <span class="candidato-foto-shell">
-        <span class="candidato-foto candidato-foto-fallback" aria-hidden="true">${initials}</span>
-        ${c.foto && c.foto.trim()
-          ? `<img src="${c.foto}" alt="Photo of ${c.nome} ${c.cognome}" class="candidato-foto candidato-foto-img" loading="lazy" decoding="async">`
-          : ""}
-      </span>`;
+const UI = {
+  "photoOf": "Photo of ",
+  "readBio": "Read bio",
+  "hideBio": "Hide bio",
+  "sending": "Sending…",
+  "sent": "You'll receive the form by email shortly. You'll need to print it, sign it and send it to the Consulate.",
+  "sendFailed": "Unable to send. Please try again shortly.",
+  "networkFailed": "Unable to send. Please check your internet connection.",
+  "mapLoading": "Loading map…",
+  "mapFailed": "Map unavailable. The towns and cities are listed in the candidate cards.",
+  "mapHelp": "Use Tab to explore the towns, cities and candidate names. Arrow keys move the map; + and − change the zoom. The same information is in the candidate cards.",
+  "retry": "Retry",
+  "video": "Programme video"
+};
 
-    li.innerHTML = `
-      <div class="candidato-top">
-        ${photoHtml}
-        <div class="candidato-id">
-          <span class="candidato-name">${c.nome} ${c.cognome}</span>
-          ${hasCitta ? `<span class="candidato-luogo">${c.citta}</span>` : ""}
-        </div>
-      </div>
-      ${hasBio ? `
-        <button class="candidato-bio-toggle" type="button" aria-expanded="false">Read bio</button>
-        <p class="candidato-bio" hidden>${c.bio}</p>
-      ` : ""}
-    `;
-
-    const foto = li.querySelector(".candidato-foto-img");
-    if (foto) {
-      const mostraFallback = () => { foto.hidden = true; };
-      foto.addEventListener("error", mostraFallback, { once: true });
-      if (foto.complete && foto.naturalWidth === 0) mostraFallback();
-    }
-
-    if (hasBio) {
-      const btn = li.querySelector(".candidato-bio-toggle");
-      const bio = li.querySelector(".candidato-bio");
-      btn.addEventListener("click", () => {
-        const open = btn.getAttribute("aria-expanded") === "true";
-        btn.setAttribute("aria-expanded", open ? "false" : "true");
-        btn.textContent = open ? "Read bio" : "Hide bio";
-        bio.hidden = open;
-      });
-    }
-
-    frag.appendChild(li);
-  });
-  grid.appendChild(frag);
+function escapeMarkup(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  })[char]);
 }
 
-// "Register to vote" popup, shown only once when the user reaches the
-// bottom of the page. The cookie lasts 180 days: anyone who has already
-// seen (or closed) it will not see it again in that browser.
+function candidateMarkup(c) {
+  const name = `${c.nome} ${c.cognome}`;
+  const initials = (c.nome.trim()[0] + c.cognome.trim()[0]).toUpperCase();
+  const photo = c.foto && c.foto.trim();
+  const optimizedPhoto = photo && photo.replace("assets/candidati/", "assets/optimized/candidati/").replace(/\.[^.]+$/, ".webp");
+  const hasBio = Boolean(c.bio && c.bio.trim());
+  return `<li class="candidato" data-candidate-index="${c.n}">
+    <div class="candidato-top">
+      <span class="candidato-foto-shell">
+        <span class="candidato-foto candidato-foto-fallback" aria-hidden="true">${escapeMarkup(initials)}</span>
+        ${photo ? `<img src="${escapeMarkup(optimizedPhoto)}" srcset="${escapeMarkup(optimizedPhoto.replace(/\.webp$/, '-90.webp'))} 90w, ${escapeMarkup(optimizedPhoto)} 180w" sizes="(max-width: 700px) 72px, 90px" data-original-src="${escapeMarkup(photo)}" alt="${escapeMarkup(UI.photoOf + name)}" class="candidato-foto candidato-foto-img" width="180" height="180" loading="lazy" decoding="async">` : ""}
+      </span>
+      <div class="candidato-id">
+        <span class="candidato-name" id="candidato-name-${c.n}">${escapeMarkup(name)}</span>
+        ${c.citta && c.citta.trim() ? `<span class="candidato-luogo">${escapeMarkup(c.citta)}</span>` : ""}
+      </div>
+    </div>
+    ${hasBio ? `<button class="candidato-bio-toggle" type="button" aria-expanded="false" aria-controls="candidato-bio-${c.n}" aria-label="${escapeMarkup(UI.readBio + ': ' + name)}">${UI.readBio}</button>
+    <p class="candidato-bio" id="candidato-bio-${c.n}" hidden>${c.bio}</p>` : ""}
+  </li>`;
+}
+
+function initCandidati() {
+  const grid = document.getElementById("candidati-grid");
+  if (!grid || grid.dataset.initialized) return;
+  grid.dataset.initialized = "true";
+  if (!grid.querySelector(".candidato")) {
+    grid.innerHTML = CANDIDATI.map(candidateMarkup).join("");
+  }
+  grid.querySelectorAll(".candidato-foto-img").forEach(photo => {
+    let triedOriginal = false;
+    function fallback() {
+      if (!triedOriginal && photo.dataset.originalSrc) {
+        triedOriginal = true;
+        photo.removeAttribute("srcset");
+        photo.src = photo.dataset.originalSrc;
+      } else {
+        photo.hidden = true;
+      }
+    }
+    photo.addEventListener("error", fallback);
+    if (photo.complete && photo.naturalWidth === 0) fallback();
+  });
+  grid.addEventListener("click", event => {
+    const button = event.target.closest(".candidato-bio-toggle");
+    if (!button || !grid.contains(button)) return;
+    const bio = document.getElementById(button.getAttribute("aria-controls"));
+    if (!bio) return;
+    const open = button.getAttribute("aria-expanded") === "true";
+    const label = open ? UI.readBio : UI.hideBio;
+    const name = button.closest(".candidato").querySelector(".candidato-name").textContent;
+    button.setAttribute("aria-expanded", String(!open));
+    button.setAttribute("aria-label", `${label}: ${name}`);
+    button.textContent = label;
+    bio.hidden = open;
+  });
+}
+
+// Keep the existing 180-day preference and 500px scroll trigger.
 const POPUP_COOKIE = "convoi_popup_visto";
 const POPUP_COOKIE_GIORNI = 180;
-// How far the user must scroll before the popup appears, in pixels.
-// 500px is roughly two or three mouse-wheel movements on a typical screen.
 const POPUP_SCROLL_SOGLIA = 500;
 
 function setCookie(nome, valore, giorni) {
-  const scadenza = new Date();
-  scadenza.setTime(scadenza.getTime() + giorni * 24 * 60 * 60 * 1000);
-  document.cookie = `${nome}=${valore}; expires=${scadenza.toUTCString()}; path=/; SameSite=Lax`;
+  const expires = new Date(Date.now() + giorni * 86400000).toUTCString();
+  try {
+    document.cookie = `${nome}=${valore}; expires=${expires}; path=/; SameSite=Lax${location.protocol === "https:" ? "; Secure" : ""}`;
+  } catch {
+    // Browsers which block storage can still use the rest of the page.
+  }
 }
 
 function getCookie(nome) {
-  return document.cookie
-    .split("; ")
-    .some(riga => riga.startsWith(`${nome}=`));
+  try {
+    return document.cookie.split(";").some(row => row.trim().startsWith(`${nome}=`));
+  } catch {
+    return false;
+  }
 }
 
-function initPopupVoto() {
+function initPopupVoto(initialScrollY = window.scrollY) {
   const popup = document.getElementById("popup-voto");
-  if (!popup) return;
-    const accessKeyInput = document.querySelector('.popup-voto-form input[name="access_key"]');
-  if (!accessKeyInput || !accessKeyInput.value) return; // Missing Web3Forms key: popup disabled
-  if (getCookie(POPUP_COOKIE)) return;
-
+  // Native dialogs provide focus containment, Escape, and focus restoration.
+  if (!popup || typeof popup.showModal !== "function" || getCookie(POPUP_COOKIE)) return;
   const form = popup.querySelector(".popup-voto-form");
   const input = popup.querySelector(".popup-voto-input");
-  const stato = popup.querySelector(".popup-voto-stato");
-  form.action = FORMSPREE_ENDPOINT;
+  const status = popup.querySelector(".popup-voto-stato");
+  const closeButton = popup.querySelector(".popup-voto-close");
+  const submitButton = form && form.querySelector("button[type=submit]");
+  const accessKey = form && form.querySelector('[name="access_key"]');
+  if (!form || !input || !status || !closeButton || !submitButton || !accessKey || !accessKey.value) return;
+  form.action = WEB3FORMS_ENDPOINT;
+  status.setAttribute("role", "status");
+  status.setAttribute("aria-live", "polite");
+  status.setAttribute("tabindex", "-1");
+  let shown = false;
+  let submitting = false;
 
-  function mostra() {
-    popup.classList.add("is-visible");
-    popup.removeAttribute("hidden");
+  function closePopup() {
+    if (popup.open) popup.close();
   }
 
-  function chiudi() {
-    popup.classList.remove("is-visible");
-    setCookie(POPUP_COOKIE, "1", POPUP_COOKIE_GIORNI);
+  function showIfScrolled(scrollY) {
+    if (shown || scrollY < POPUP_SCROLL_SOGLIA || document.querySelector("dialog[open]")) return;
+    shown = true;
     window.removeEventListener("scroll", onScroll);
+    popup.hidden = false;
+    popup.classList.add("is-visible");
+    popup.showModal();
   }
 
   function onScroll() {
-    const scrollAbbastanza = window.scrollY >= POPUP_SCROLL_SOGLIA;
-    if (scrollAbbastanza) mostra();
+    showIfScrolled(window.scrollY);
   }
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (!input.value || !input.checkValidity()) {
-      input.reportValidity();
-      return;
-    }
-    form.querySelector("button[type=submit]").disabled = true;
+  function showStatus(message) {
+    status.textContent = message;
+    status.hidden = false;
+  }
+
+  popup.addEventListener("close", () => {
+    popup.classList.remove("is-visible");
+    popup.hidden = true;
+    setCookie(POPUP_COOKIE, "1", POPUP_COOKIE_GIORNI);
+    window.removeEventListener("scroll", onScroll);
+  });
+  closeButton.addEventListener("click", closePopup);
+  popup.addEventListener("click", event => {
+    if (event.target === popup) closePopup();
+  });
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (submitting || !form.reportValidity()) return;
+    submitting = true;
+    submitButton.disabled = true;
+    form.setAttribute("aria-busy", "true");
+    showStatus(UI.sending);
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 20000);
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const response = await fetch(WEB3FORMS_ENDPOINT, {
         method: "POST",
         headers: { Accept: "application/json" },
         body: new FormData(form),
+        signal: controller.signal
       });
-      if (res.ok) {
-        stato.textContent = "You'll receive the form by email shortly. You'll need to print it, sign it and send it to the Consulate.";
-        stato.hidden = false;
+      const result = await response.json();
+      if (response.ok && result.success === true) {
+        showStatus(UI.sent);
         form.hidden = true;
         setCookie(POPUP_COOKIE, "1", POPUP_COOKIE_GIORNI);
-        window.removeEventListener("scroll", onScroll);
-        setTimeout(chiudi, 6000);
+        if (popup.open) status.focus({ preventScroll: true });
       } else {
-        stato.textContent = "Unable to send. Please try again shortly.";
-        stato.hidden = false;
-        form.querySelector("button[type=submit]").disabled = false;
+        showStatus(UI.sendFailed);
       }
     } catch {
-      stato.textContent = "Unable to send. Please check your internet connection.";
-      stato.hidden = false;
-      form.querySelector("button[type=submit]").disabled = false;
+      showStatus(UI.networkFailed);
+    } finally {
+      window.clearTimeout(timeout);
+      form.removeAttribute("aria-busy");
+      submitButton.disabled = false;
+      submitting = false;
     }
   });
-
-  popup.querySelector(".popup-voto-close").addEventListener("click", chiudi);
-  popup.addEventListener("click", (e) => {
-    if (e.target === popup) chiudi();
-  });
   window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+  showIfScrolled(initialScrollY);
 }
-
 
 function initPrivacyPolicy() {
   const dialog = document.getElementById("privacy-policy-dialog");
-  const apri = document.querySelector(".privacy-policy-open");
-  if (!dialog || !apri) return;
-
-  function apriDialog() {
-    if (typeof dialog.showModal === "function") {
-      dialog.showModal();
-    } else {
-      dialog.setAttribute("open", "");
-    }
-  }
-
-  function chiudiDialog() {
-    if (typeof dialog.close === "function") {
-      dialog.close();
-    } else {
-      dialog.removeAttribute("open");
-    }
-  }
-
-  apri.addEventListener("click", apriDialog);
-  dialog.querySelectorAll("[data-privacy-policy-close]").forEach((pulsante) => {
-    pulsante.addEventListener("click", chiudiDialog);
+  const openButton = document.querySelector(".privacy-policy-open");
+  if (!dialog || !openButton) return;
+  openButton.addEventListener("click", () => {
+    if (dialog.open) return;
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else dialog.setAttribute("open", "");
   });
-  dialog.addEventListener("click", (evento) => {
-    if (evento.target === dialog) chiudiDialog();
+  function closeDialog() {
+    if (typeof dialog.close === "function") dialog.close();
+    else {
+      dialog.removeAttribute("open");
+      openButton.focus();
+    }
+  }
+  dialog.querySelectorAll("[data-privacy-policy-close]").forEach(button => {
+    button.addEventListener("click", closeDialog);
+  });
+  dialog.addEventListener("click", event => {
+    if (event.target !== dialog) return;
+    const bounds = dialog.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeDialog();
   });
 }
-
-
 
 const CITY_COORDS = {
   "Manchester": [53.4808, -2.2426],
@@ -237,91 +264,234 @@ const CITY_COORDS = {
   "Bradford": [53.7950, -1.7594],
   "Warrington": [53.3900, -2.5970],
   "Carlisle": [54.8925, -2.9329],
+  // Coordinates: https://wiki.openstreetmap.org/wiki/Walsall
+  "Walsall": [52.5888, -1.9837],
   "West Bromwich": [52.5187, -2.1952]
 };
 
+let leafletLoading;
+
+function loadMapAsset(tag, url, id) {
+  let element = document.getElementById(id);
+  if (element && element.dataset.loaded === "true") return Promise.resolve();
+  return new Promise((resolve, reject) => {
+    if (!element) {
+      element = document.createElement(tag);
+      element.id = id;
+      if (tag === "link") {
+        element.rel = "stylesheet";
+        element.href = url;
+      } else {
+        element.src = url;
+        element.async = true;
+      }
+    }
+    const timeout = window.setTimeout(failed, 15000);
+    function cleanup() {
+      window.clearTimeout(timeout);
+      element.removeEventListener("load", loaded);
+      element.removeEventListener("error", failed);
+    }
+    function loaded() {
+      cleanup();
+      element.dataset.loaded = "true";
+      resolve();
+    }
+    function failed() {
+      cleanup();
+      element.remove();
+      reject(new Error("Map asset unavailable"));
+    }
+    element.addEventListener("load", loaded, { once: true });
+    element.addEventListener("error", failed, { once: true });
+    if (!element.isConnected) document.head.appendChild(element);
+  });
+}
+
+function loadLeaflet() {
+  if (!leafletLoading) {
+    leafletLoading = Promise.all([
+      loadMapAsset("link", "assets/vendor/leaflet/leaflet.css", "convoi-leaflet-css"),
+      window.L ? Promise.resolve() : loadMapAsset("script", "assets/vendor/leaflet/leaflet.js", "convoi-leaflet-js")
+    ]).then(() => {
+      if (!window.L) throw new Error("Map library unavailable");
+      return window.L;
+    }).catch(error => {
+      leafletLoading = null;
+      throw error;
+    });
+  }
+  return leafletLoading;
+}
+
 function initCandidateMap() {
-  const mapEl = document.getElementById("candidate-map");
-  if (!mapEl || typeof L === "undefined") return;
+  const mapElement = document.getElementById("candidate-map");
+  if (!mapElement || mapElement.dataset.mapState) return;
+  mapElement.dataset.mapState = "idle";
+  mapElement.setAttribute("role", "region");
+  const help = document.createElement("p");
+  help.id = "candidate-map-help";
+  help.className = "sr-only";
+  help.textContent = UI.mapHelp;
+  mapElement.after(help);
+  mapElement.setAttribute("aria-describedby", help.id);
+  let map;
 
-  const map = L.map(mapEl, {
-    zoomControl: false,
-    scrollWheelZoom: false,
-    doubleClickZoom: false,
-    boxZoom: false,
-    keyboard: false
-  });
+  async function showMap() {
+    if (mapElement.dataset.mapState === "loading" || mapElement.dataset.mapState === "ready") return;
+    mapElement.dataset.mapState = "loading";
+    mapElement.setAttribute("aria-busy", "true");
+    const message = document.createElement("p");
+    message.className = "candidate-map-message";
+    message.setAttribute("role", "status");
+    message.textContent = UI.mapLoading;
+    mapElement.replaceChildren(message);
+    try {
+      const L = await loadLeaflet();
+      mapElement.replaceChildren();
+      map = L.map(mapElement, {
+        zoomControl: false,
+        scrollWheelZoom: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: true
+      });
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+        maxZoom: 18
+      }).addTo(map);
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "&copy; OpenStreetMap contributors",
-    maxZoom: 18
-  }).addTo(map);
+      const cities = new Map();
+      CANDIDATI.forEach(candidate => {
+        const city = candidate.citta && candidate.citta.trim();
+        if (!city || !CITY_COORDS[city]) return;
+        if (!cities.has(city)) cities.set(city, []);
+        cities.get(city).push(`${candidate.nome} ${candidate.cognome}`);
+      });
+      const points = Array.from(cities.keys(), city => CITY_COORDS[city]);
+      if (points.length) map.fitBounds(points, { padding: [10, 10] });
 
-  const perCitta = new Map();
+      cities.forEach((names, city) => {
+        const coordinate = CITY_COORDS[city];
+        const marker = L.circleMarker(coordinate, {
+          radius: 5, weight: 2, color: "#003399", fillColor: "#0097b2", fillOpacity: 0.9
+        }).addTo(map).bindTooltip(`<strong>${escapeMarkup(city)}</strong><br>${names.map(escapeMarkup).join("<br>")}`, { interactive: true });
+        const element = marker.getElement();
+        if (!element) return;
+        element.setAttribute("tabindex", "0");
+        element.setAttribute("role", "button");
+        element.setAttribute("aria-label", `${city}: ${names.join(", ")}`);
+        element.setAttribute("aria-expanded", "false");
+        marker.on("tooltipopen", () => element.setAttribute("aria-expanded", "true"));
+        marker.on("tooltipclose", () => element.setAttribute("aria-expanded", "false"));
+        element.addEventListener("focus", () => {
+          map.panInside(coordinate, { padding: [10, 10], animate: false });
+        });
+        element.addEventListener("keydown", event => {
+          if (event.key === "Escape") {
+            event.stopPropagation();
+            marker.closeTooltip();
+          } else if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            event.stopPropagation();
+            marker.toggleTooltip();
+          }
+        });
+      });
+      mapElement.dataset.mapState = "ready";
+    } catch {
+      if (map) {
+        map.remove();
+        map = null;
+      }
+      mapElement.dataset.mapState = "failed";
+      message.textContent = UI.mapFailed;
+      const retry = document.createElement("button");
+      retry.type = "button";
+      retry.className = "btn btn-small btn-outline";
+      retry.textContent = UI.retry;
+      retry.addEventListener("click", showMap);
+      mapElement.replaceChildren(message, retry);
+    } finally {
+      mapElement.removeAttribute("aria-busy");
+    }
+  }
 
-  CANDIDATI.forEach(c => {
-    const citta = c.citta && c.citta.trim();
-    if (!citta || !CITY_COORDS[citta]) return;
-
-    if (!perCitta.has(citta)) perCitta.set(citta, []);
-    perCitta.get(citta).push(`${c.nome} ${c.cognome}`);
-  });
-
-  const punti = [];
-
-  perCitta.forEach((nomi, citta) => {
-    const coord = CITY_COORDS[citta];
-    punti.push(coord);
-
-    L.circleMarker(coord, {
-      radius: 5,
-      weight: 2,
-      color: "#003399",
-      fillColor: "#0097b2",
-      fillOpacity: 0.9
-    })
-      .addTo(map)
-      .bindTooltip(`<strong>${citta}</strong><br>${nomi.join("<br>")}`);
-  });
-
-  if (punti.length) {
-    map.fitBounds(punti, { padding: [10, 10] });
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      observer.disconnect();
+      showMap();
+    }, { rootMargin: "160px 0px" });
+    observer.observe(mapElement);
+  } else {
+    showMap();
   }
 }
 
 function initTabs() {
-  const buttons = Array.from(document.querySelectorAll(".pillar-btn"));
-  const panels = Array.from(document.querySelectorAll(".pillar-panel"));
-  if (!buttons.length) return;
-
-  function activate(id) {
-    buttons.forEach(b => {
-      const on = b.dataset.target === id;
-      b.classList.toggle("is-active", on);
-      b.setAttribute("aria-selected", on ? "true" : "false");
+  document.querySelectorAll('.pillar-index[role="tablist"]').forEach(tablist => {
+    const buttons = Array.from(tablist.querySelectorAll(".pillar-btn")).filter(button => document.getElementById(button.dataset.target));
+    if (!buttons.length) return;
+    function activate(button, focus = false) {
+      buttons.forEach(tab => {
+        const selected = tab === button;
+        tab.classList.toggle("is-active", selected);
+        tab.setAttribute("aria-selected", String(selected));
+        tab.tabIndex = selected ? 0 : -1;
+        const panel = document.getElementById(tab.dataset.target);
+        panel.classList.toggle("is-active", selected);
+        panel.hidden = !selected;
+        panel.tabIndex = 0;
+      });
+      if (focus) button.focus();
+    }
+    buttons.forEach((button, index) => {
+      button.addEventListener("click", () => activate(button));
+      button.addEventListener("keydown", event => {
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        const vertical = tablist.getAttribute("aria-orientation") === "vertical";
+        let next;
+        if (event.key === (vertical ? "ArrowDown" : "ArrowRight")) next = (index + 1) % buttons.length;
+        else if (event.key === (vertical ? "ArrowUp" : "ArrowLeft")) next = (index + buttons.length - 1) % buttons.length;
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = buttons.length - 1;
+        else return;
+        event.preventDefault();
+        activate(buttons[next], true);
+      });
     });
-
-    panels.forEach(p => {
-      const on = p.id === id;
-      p.classList.toggle("is-active", on);
-
-      if (on) {
-        p.removeAttribute("hidden");
-      } else {
-        p.setAttribute("hidden", "");
-      }
-    });
-  }
-
-  buttons.forEach(b => {
-    b.addEventListener("click", () => activate(b.dataset.target));
+    activate(buttons.find(button => button.getAttribute("aria-selected") === "true") || buttons[0]);
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function initVideos() {
+  document.querySelectorAll(".programma-video-frame [data-video-id]").forEach(button => {
+    button.addEventListener("click", event => {
+      const id = button.dataset.videoId;
+      if (!/^[\w-]{11}$/.test(id)) return;
+      event.preventDefault();
+      const frame = document.createElement("iframe");
+      frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+      frame.title = button.dataset.videoTitle || button.getAttribute("aria-label") || UI.video;
+      frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      frame.allowFullscreen = true;
+      frame.referrerPolicy = "strict-origin-when-cross-origin";
+      button.closest(".programma-video-frame").replaceChildren(frame);
+      frame.focus({ preventScroll: true });
+    }, { once: true });
+  });
+}
+
+function initPage() {
+  const initialScrollY = window.scrollY;
   initCandidati();
-  initCandidateMap();
   initTabs();
-  initPopupVoto();
+  initPopupVoto(initialScrollY);
   initPrivacyPolicy();
-});
+  initVideos();
+  initCandidateMap();
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initPage, { once: true });
+else initPage();

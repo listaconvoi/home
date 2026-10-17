@@ -1,3 +1,53 @@
+/* Original Inter and Fraunces fonts, self-hosted. SIL Open Font License copies accompany the fonts. */
+/* Fraunces: latin-ext */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(assets/fonts/fraunces-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* Fraunces: latin */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(assets/fonts/fraunces-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Inter: latin-ext */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(assets/fonts/inter-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* Inter: latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url(assets/fonts/inter-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Metric-adjusted local fallback reduces text movement before Inter arrives. */
+@font-face{
+  font-family:"Inter Fallback"; src:local("Arial"),local("Liberation Sans"),local("Nimbus Sans");
+  font-style:normal; font-weight:400 500;
+  size-adjust:107%; ascent-override:90.54%; descent-override:22.54%; line-gap-override:0%;
+}
+@font-face{
+  font-family:"Inter Fallback"; src:local("Arial Bold"),local("Liberation Sans Bold"),local("Nimbus Sans Bold");
+  font-style:normal; font-weight:600 700;
+  size-adjust:107%; ascent-override:90.54%; descent-override:22.54%; line-gap-override:0%;
+}
+
 :root{
   --blue: #003399;
   --blue-deep: #001f5c;
@@ -11,12 +61,12 @@
   --line: #dfe6ea;
   --radius: 14px;
   --serif: "Fraunces", Georgia, serif;
-  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sans: "Inter", "Inter Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --shadow: 0 12px 32px -16px rgba(0,31,92,0.35);
 }
 
 *{ box-sizing: border-box; }
-html{ scroll-behavior: smooth; }
+html{ scroll-behavior: smooth; scroll-padding-top: 100px; }
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior: auto; }
   *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -87,7 +137,7 @@ p{ margin: 0 0 1em; }
 .btn-ghost:hover{ border-color: var(--white); }
 .btn-small{ padding: 8px 16px; font-size: 0.88rem; }
 .btn-outline{ background: transparent; color: var(--teal-deep); border-color: var(--teal); }
-.btn-outline:hover{ background: var(--teal); color: #fff; }
+.btn-outline:hover{ background: var(--teal-deep); border-color: var(--teal-deep); color: #fff; }
 
 /* Hero */
 .hero{
@@ -189,7 +239,7 @@ p{ margin: 0 0 1em; }
   background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
   padding: 18px 16px; font-family: var(--sans);
 }
-.pillar-num{ font-family: var(--serif); font-size: 1.4rem; color: var(--teal); font-weight:600; }
+.pillar-num{ font-family: var(--serif); font-size: 1.4rem; color: var(--teal-deep); font-weight:600; }
 .pillar-label{ font-weight: 600; color: var(--ink-soft); }
 .pillar-panel li {
   margin-bottom: 1rem;
@@ -494,10 +544,12 @@ p{ margin: 0 0 1em; }
 /* Popup registrazione voto */
 .popup-voto{
   position: fixed; inset: 0; z-index: 200;
-  display:flex; align-items:center; justify-content:center; padding: 20px;
-  background: rgba(4,12,32,0.6); backdrop-filter: blur(2px);
-  opacity: 0; pointer-events: none; transition: opacity .3s ease;
+  width:100%; height:100%; max-width:none; max-height:none; margin:0; border:0;
+  display:flex; align-items:center; justify-content:center; padding:20px;
+  background:transparent; color:inherit;
 }
+.popup-voto:not([open]){ display:none; }
+.popup-voto::backdrop{ background:rgba(4,12,32,0.6); backdrop-filter:blur(2px); }
 .popup-voto.is-visible{ opacity: 1; pointer-events: auto; }
 .popup-voto-box{
   width: 100%; max-width: 420px;
@@ -768,7 +820,7 @@ a.press-card:hover .press-thumb{
 .press-thumb{
   width:100%;
   aspect-ratio:16 / 9;
-  background:var(--paper) url("assets/news.png") center / cover no-repeat;
+  background:var(--paper);
   border:1px solid var(--line);
   border-radius:12px;
   overflow:hidden;
@@ -795,7 +847,7 @@ a.press-card:hover .press-thumb{
   color:var(--ink-soft);
   font-size:.84rem;
 }
-.press-placeholder{ opacity:.58; }
+.press-placeholder .press-thumb{ opacity:.58; }
 @media (max-width:900px){
   .press-gallery{ grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
@@ -872,4 +924,93 @@ a.press-card:hover .press-thumb{
     flex-basis: auto;
     align-self: center;
   }
+}
+
+
+  /* Video di approfondimento nei cinque tab del programma */
+  .programma-video {
+    width: 100%;
+    max-width: 760px;
+    margin: 1.5rem auto 2rem;
+  }
+  .programma-video h4 {
+    margin: 0 0 0.8rem;
+    font-size: 1.05rem;
+  }
+  .programma-video-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #edf3f2;
+  }
+  .programma-video-frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .programma-video-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border: 1px dashed #9cafaa;
+    color: #4e625d;
+    font-weight: 600;
+    text-align: center;
+    padding: 1rem;
+  }
+
+/* Loading, keyboard access and narrow screens. */
+[hidden]{ display:none !important; }
+.sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; border:0; }
+.language-switch{ display:flex; justify-content:center; padding-top:.75rem; padding-bottom:.75rem; }
+.language-switch .btn{ background:#14532d; border-color:#14532d; color:#fff; }
+.language-switch .btn:hover{ background:#104325; border-color:#104325; }
+:where(a,button,input,summary,[tabindex]):focus-visible{ outline:3px solid var(--teal-deep); outline-offset:4px; }
+:where(.hero,.vota,.site-footer,.popup-voto) :where(a,button,input,[tabindex]):focus-visible{ outline-color:var(--gold); }
+#main:focus{ outline:none; }
+.brand-mark,.footer-mark{ flex-shrink:0; }
+.header-inner{ gap:20px; }
+.site-footer a{ color:var(--gold); text-underline-offset:3px; }
+.site-footer a:hover{ color:#fff; }
+.footer-inner{ flex-wrap:wrap; }
+.contact-email{ overflow-wrap:anywhere; max-width:100%; }
+.contatti-links{ max-width:100%; }
+.candidato-bio-toggle{ min-height:24px; }
+.candidato-foto-img[hidden]{ display:none; }
+.candidate-map-message{ margin:8px; color:var(--ink); font-size:.7rem; line-height:1.3; }
+.candidate-map > .btn{ margin:0 8px 8px; padding:5px 9px; font-size:.68rem; }
+.candidate-map .leaflet-control-attribution{ font-size:9px; }
+.candidate-map .leaflet-interactive:focus-visible{ outline:2px solid var(--blue-deep); outline-offset:2px; }
+.popup-voto-box{ max-height:calc(100vh - 40px); max-height:calc(100dvh - 40px); overflow:auto; }
+.popup-voto-close{ width:32px; height:32px; padding:0; }
+.popup-voto-input::placeholder{ color:rgba(255,255,255,.75); }
+.popup-voto-stato:focus{ outline:2px solid var(--gold); outline-offset:4px; }
+.video-facade{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:16px; width:100%; height:100%; padding:24px; border:0;
+  background:linear-gradient(135deg,#003399,#001f5c); color:#fff;
+  font:600 1.1rem var(--sans); text-decoration:none; text-align:center; cursor:pointer;
+}
+.video-facade:hover{ background:#001f5c; }
+.video-facade:focus-visible{ outline:4px solid var(--gold); outline-offset:-6px; }
+.video-play{ display:grid; place-items:center; width:72px; height:52px; border-radius:14px; background:#fff; }
+.video-play::before{ content:""; margin-left:5px; border-top:12px solid transparent; border-bottom:12px solid transparent; border-left:20px solid var(--blue-deep); }
+.programma-video-frame iframe{ display:block; width:100%; height:100%; border:0; }
+@media (min-width:701px) and (max-width:1040px){
+  .header-inner{ flex-wrap:wrap; gap:10px; }
+  .site-nav{ flex-wrap:wrap; }
+  html{ scroll-padding-top:140px; }
+}
+@media (max-width:700px){
+  html{ scroll-padding-top:175px; }
+  .header-inner{ gap:10px; }
+  .site-nav a{ min-height:24px; }
+  .materiali .hero-actions .btn{ width:100%; }
+}
+@media (max-width:520px){
+  .materiali .hero-actions{ grid-template-columns:1fr; }
+  .candidati-grid{ grid-template-columns:minmax(0,1fr); }
 }
